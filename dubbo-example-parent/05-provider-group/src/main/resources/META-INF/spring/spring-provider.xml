@@ -14,7 +14,14 @@
   <!-- 注册Service实现类 -->
   <bean id="weixinService" class="com.yw.dubbo.example.provider.WeixinServiceImpl"/>
   <bean id="zhifubaoService" class="com.yw.dubbo.example.provider.ZhifubaoServiceImpl"/>
+
+  <!-- 声明要使用的多种协议 -->
+  <dubbo:protocol name="name" port="20880" />
+  <dubbo:protocol name="rmi" port="1099" />
+
   <!-- 服务暴露 -->
-  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="weixinService" group="pay.weixin"/>
-  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="zhifubaoService" group="pay.zhifubao"/>
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 protocol="dubbo" ref="weixinService" group="pay.weixin"/>
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 protocol="rmi" ref="zhifubaoService" group="pay.zhifubao"/>
 </beans>

@@ -17,6 +17,6 @@
                    interface="com.yw.dubbo.example.service.SomeService" />
 
   <!--  订阅服务：指定调用支付宝支付服务 -->
-  <dubbo:reference id="zhifubao" group="pay.zhifubao" protocol="dubbo"
+  <dubbo:reference id="zhifubao" group="pay.zhifubao" protocol="rmi"
                    interface="com.yw.dubbo.example.service.SomeService"/>
 </beans>

@@ -14,7 +14,14 @@
   <!-- 注册Service实现类 -->
   <bean id="oldService" class="com.yw.dubbo.example.provider.OldSomeServiceImpl" />
   <bean id="newService" class="com.yw.dubbo.example.provider.NewSomeServiceImpl" />
+
+  <!-- 声明要使用的多种协议 -->
+  <dubbo:protocol name="dubbo" port="20880" />
+  <dubbo:protocol name="rmi" port="1099" />
+
   <!-- 服务暴露 -->
-  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="oldService" version="0.0.1" />
-  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="newService" version="0.0.2"/>
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 ref="oldService" version="0.0.1" />
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 protocol="dubbo, rmi" ref="newService" version="0.0.2"/>
 </beans>
