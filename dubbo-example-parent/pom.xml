@@ -33,6 +33,8 @@
     <module>03-consumer-web</module>
     <module>04-provider-version</module>
     <module>04-consumer-version</module>
+    <module>05-provider-group</module>
+    <module>05-consumer-group</module>
   </modules>
 
   <dependencies>
