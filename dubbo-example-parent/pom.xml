@@ -29,6 +29,8 @@
     <module>01-consumer</module>
     <module>02-provider-zk</module>
     <module>02-consumer-zk</module>
+    <module>03-provider-web</module>
+    <module>03-consumer-web</module>
   </modules>
 
   <dependencies>
