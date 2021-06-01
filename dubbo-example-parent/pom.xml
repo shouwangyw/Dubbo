@@ -27,6 +27,8 @@
     <module>00-api</module>
     <module>01-provider</module>
     <module>01-consumer</module>
+    <module>02-provider-zk</module>
+    <module>02-consumer-zk</module>
   </modules>
 
   <dependencies>
@@ -64,12 +66,12 @@
       <artifactId>curator-framework</artifactId>
       <version>2.13.0</version>
     </dependency>
-    <!-- zk客户端依赖：zkclient -->
-    <dependency>
-      <groupId>com.101tec</groupId>
-      <artifactId>zkclient</artifactId>
-      <version>0.10</version>
-    </dependency>
+<!--    &lt;!&ndash; zk客户端依赖：zkclient &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>com.101tec</groupId>-->
+<!--      <artifactId>zkclient</artifactId>-->
+<!--      <version>0.10</version>-->
+<!--    </dependency>-->
     <!-- dubbo依赖 -->
     <dependency>
       <groupId>org.apache.dubbo</groupId>
