@@ -12,5 +12,35 @@
   <!-- 注册服务执行对象 -->
   <bean id="userService" class="com.yw.dubbo.example.provider.UserServiceImpl" />
   <!-- 服务暴露 -->
-  <dubbo:service interface="com.yw.dubbo.example.service.UserService" ref="userService" />
+  <dubbo:service interface="com.yw.dubbo.example.service.UserService"
+                 ref="userService"/>
+
+  <!-- executes限流:仅提供者端 -->
+<!--  &lt;!&ndash; 接口级别：显示当前接口中每个方法的并发执行个数不能超过10个 &ndash;&gt;-->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.UserService" -->
+<!--                 ref="userService" executes="10">-->
+<!--    &lt;!&ndash; 方法级别：显示当前接口的addUser方法的并发执行个数不能超过5个 &ndash;&gt;-->
+<!--    <dubbo:method name="addUser" executes="5" />-->
+<!--  </dubbo:service>-->
+
+  <!-- accepts限流:仅提供者端 -->
+<!--  &lt;!&ndash; 限制当前提供者在使用dubbo协议时，最多接收20个消费者连接 &ndash;&gt;-->
+<!--  <dubbo:provider protocol="dubbo" accepts="20" />-->
+
+<!--  &lt;!&ndash; 限制当前提供者在使用dubbo协议时，最多接收10个消费者连接 &ndash;&gt;-->
+<!--  <dubbo:protocol name="dubbo" port="20880" accepts="10" />-->
+
+  <!-- actives限流 -->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.UserService"-->
+<!--                 ref="userService" actives="10">-->
+<!--    <dubbo:method name="addUser" actives="5" />-->
+<!--  </dubbo:service>-->
+
+  <!-- connections限流 -->
+<!--  &lt;!&ndash; 限制当前接口中每个方法的并发连接数不能超过10个 &ndash;&gt;-->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.UserService"-->
+<!--                 ref="userService" connections="10">-->
+<!--    &lt;!&ndash; 限制当前接口中addUser方法的并发连接数不能超过5个 &ndash;&gt;-->
+<!--    <dubbo:method name="addUser" connections="5" />-->
+<!--  </dubbo:service>-->
 </beans>

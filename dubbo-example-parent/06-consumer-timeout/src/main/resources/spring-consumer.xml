@@ -12,7 +12,39 @@
   <!-- 指定服务注册中心：zk单机 -->
   <dubbo:registry address="zookeeper://192.168.254.120:2181"/>
   <!-- 服务订阅 -->
-  <dubbo:reference id="userService" check="false" timeout="3000"
+  <dubbo:reference id="userService" check="false" mock="true" timeout="3000"
                    interface="com.yw.dubbo.example.service.UserService" />
 
+  <!-- actives限流 -->
+<!--  <dubbo:reference id="userService" check="false" actives="10"-->
+<!--                   interface="com.yw.dubbo.example.service.UserService">-->
+<!--    <dubbo:method name="addUser" actives="5" />-->
+<!--  </dubbo:reference>-->
+
+  <!-- connections限流 -->
+<!--  <dubbo:reference id="userService" check="false" connections="10"-->
+<!--                   interface="com.yw.dubbo.example.service.UserService">-->
+<!--    <dubbo:method name="addUser" connections="5" />-->
+<!--  </dubbo:reference>-->
+
+  <!-- 间接限流 -->
+<!--  &lt;!&ndash; 延迟连接: 仅可设置在消费者端，且不能设置为方法级别 &ndash;&gt;-->
+<!--  &lt;!&ndash; 设置当前消费者对指定接口的每一个方法发出的连接均采用延迟连接 &ndash;&gt;-->
+<!--  <dubbo:reference id="userService" lazy="true"-->
+<!--                   interface="com.yw.dubbo.example.service.UserService" />-->
+<!--  &lt;!&ndash; 设置当前消费者对所有接口的所有方法发出的连接均采用延迟连接 &ndash;&gt;-->
+<!--  <dubbo:consumer lazy="true" />-->
+
+  <!-- 粘连连接: 仅可设置在消费者端 -->
+<!--  &lt;!&ndash; 设置当前消费者对指定接口的每一个方法发出的连接均采用粘连连接 &ndash;&gt;-->
+<!--  <dubbo:reference id="userService" sticky="true"-->
+<!--                   interface="com.yw.dubbo.example.service.UserService" />-->
+<!--  <dubbo:reference id="userService"-->
+<!--                   interface="com.yw.dubbo.example.service.UserService" >-->
+<!--    &lt;!&ndash; 设置当前消费者对指定接口的addUser方法发出的连接均采用粘连连接 &ndash;&gt;-->
+<!--    <dubbo:method name="addUser" sticky="true" />-->
+<!--  </dubbo:reference>-->
+
+<!--  <dubbo:reference id="userService" loadbalance="leastactive"-->
+<!--                   interface="com.yw.dubbo.example.service.UserService" />-->
 </beans>
