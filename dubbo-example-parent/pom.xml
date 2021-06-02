@@ -35,6 +35,7 @@
     <module>04-consumer-version</module>
     <module>05-provider-group</module>
     <module>05-consumer-group</module>
+    <module>06-consumer-mock</module>
   </modules>
 
   <dependencies>
