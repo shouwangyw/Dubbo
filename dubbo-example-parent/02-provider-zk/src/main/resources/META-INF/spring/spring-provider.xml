@@ -7,6 +7,21 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
   <!-- 指定当前工程在Monitor中显示的名称，一般与工程名相同 -->
   <dubbo:application name="02-provider-zk" />
+  <!-- 演示负载均衡 -->
+<!--  <dubbo:application name="02-provider-zk-01">-->
+<!--    <dubbo:parameter key="qos.port" value="11111" />-->
+<!--  </dubbo:application>-->
+<!--  <dubbo:protocol name="dubbo" port="20881" />-->
+
+<!--  <dubbo:application name="02-provider-zk-02">-->
+<!--    <dubbo:parameter key="qos.port" value="22222" />-->
+<!--  </dubbo:application>-->
+<!--  <dubbo:protocol name="dubbo" port="20882" />-->
+
+<!--  <dubbo:application name="02-provider-zk-03">-->
+<!--    <dubbo:parameter key="qos.port" value="33333" />-->
+<!--  </dubbo:application>-->
+<!--  <dubbo:protocol name="dubbo" port="20883" />-->
 
   <!-- 指定服务注册中心：zk单机 -->
   <dubbo:registry address="zookeeper://192.168.254.120:2181" />
@@ -18,6 +33,26 @@
 
   <!-- 注册服务执行对象 -->
   <bean id="someService" class="com.yw.dubbo.example.provider.SomeServiceImpl" />
-  <!-- 服务暴露 -->
-  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService" />
+<!--  &lt;!&ndash; 服务暴露 &ndash;&gt;-->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService" />-->
+
+  <!-- 服务暴露：指定调用服务的所有方法均采用轮询负载均衡算法 -->
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService" loadbalance="roundrobin" />
+
+  <!-- 服务暴露：指定不同的服务方法采用不同的负载均衡算法 -->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService">-->
+<!--    <dubbo:method name="hello" loadbalance="roundrobin"/>-->
+<!--    <dubbo:method name="doFirst" loadbalance="random"/>-->
+<!--    <dubbo:method name="doSecond" loadbalance="leastactive"/>-->
+<!--  </dubbo:service>-->
+
+  <!-- 服务暴露：一致性 hash 算法进行负载均衡 -->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService">-->
+<!--    <dubbo:method name="hello">-->
+<!--      &lt;!&ndash; 对hello方法的第二个参数进行hash结果查找对应主机 &ndash;&gt;-->
+<!--      <dubbo:parameter key="hash.arguments" value="0,1,0" />-->
+<!--      &lt;!&ndash; 指定虚拟主机为320个，源码中默认为160个 &ndash;&gt;-->
+<!--      <dubbo:parameter key="hash.nodes" value="320" />-->
+<!--    </dubbo:method>-->
+<!--  </dubbo:service>-->
 </beans>
