@@ -36,6 +36,8 @@
     <module>05-provider-group</module>
     <module>05-consumer-group</module>
     <module>06-consumer-mock</module>
+    <module>06-provider-timeout</module>
+    <module>06-consumer-timeout</module>
   </modules>
 
   <dependencies>

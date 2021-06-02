@@ -1,6 +1,6 @@
 package com.yw.dubbo.example.service;
 
-public class UserServiceMock implements UserService{
+public class UserServiceMock implements UserService {
     @Override
     public String getUsernameById(int id) {
         return "没有该用户：" + id;
