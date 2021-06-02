@@ -31,4 +31,18 @@
 <!--    <dubbo:method name="doFirst" loadbalance="random"/>-->
 <!--    <dubbo:method name="doSecond" loadbalance="leastactive"/>-->
 <!--  </dubbo:reference>-->
+
+<!--  &lt;!&ndash; 订阅服务：设置对指定服务器最多调用3次（一次正常调用，两次重试） &ndash;&gt;-->
+<!--  <dubbo:reference id="someService" check="false"-->
+<!--                   interface="com.yw.dubbo.example.service.SomeService" retries="2"/>-->
+
+<!--  <dubbo:reference id="someService" check="false"-->
+<!--                   interface="com.yw.dubbo.example.service.SomeService">-->
+<!--    &lt;!&ndash; 指定对hello方法最多调用3次（一次正常调用，两次重试） &ndash;&gt;-->
+<!--    <dubbo:method name="hello" retries="2"/>-->
+<!--  </dubbo:reference>-->
+
+<!--  &lt;!&ndash; 指定要调用的服务器集群容错机制采用failfast &ndash;&gt;-->
+<!--  <dubbo:reference id="someService" check="false" cluster="failfast" -->
+<!--                   interface="com.yw.dubbo.example.service.SomeService" />-->
 </beans>

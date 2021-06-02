@@ -55,4 +55,15 @@
 <!--      <dubbo:parameter key="hash.nodes" value="320" />-->
 <!--    </dubbo:method>-->
 <!--  </dubbo:service>-->
+
+<!--  &lt;!&ndash; 指定当前服务中的任意方法若调用失败，最多让消费者调用3次（一次正常调用，两次重试） &ndash;&gt;-->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService" />-->
+
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService">-->
+<!--    &lt;!&ndash; 指定当前方法若调用失败，最多让消费者调用3次（一次正常调用，两次重试） &ndash;&gt;-->
+<!--    <dubbo:method name="hello" retries="2" />-->
+<!--  </dubbo:service>-->
+
+<!--  &lt;!&ndash; 指定当前的服务器集群容错机制采用failfast &ndash;&gt;-->
+<!--  <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="someService" cluster="failfast" />-->
 </beans>
