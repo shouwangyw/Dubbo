@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
   <!-- 指定当前工程在Monitor中显示的名称，一般与工程名相同 -->
-  <dubbo:application name="06-consumer-mock">
+  <dubbo:application name="06-consumer-timeout">
     <dubbo:parameter key="qos.port" value="44444" />
   </dubbo:application>
   <!-- 指定服务注册中心：zk单机 -->

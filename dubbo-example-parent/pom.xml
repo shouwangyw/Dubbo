@@ -38,6 +38,7 @@
     <module>06-consumer-mock</module>
     <module>06-provider-timeout</module>
     <module>06-consumer-timeout</module>
+    <module>07-consumer-cache</module>
   </modules>
 
   <dependencies>
