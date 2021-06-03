@@ -9,9 +9,9 @@
   <dubbo:application name="08-provider-registers" />
 
   <!-- 声明多个服务注册中心 -->
-  <dubbo:registry id="bjCenter" address="zookeeper://bjZk:2181" /> <!-- 北京中心 -->
+  <dubbo:registry id="bjCenter" address="zookeeper://bjZk:2181" register="false" /> <!-- 北京中心 -->
   <dubbo:registry id="shCenter" address="zookeeper://shZk:2181" /> <!-- 上海中心 -->
-  <dubbo:registry id="gzCenter" address="zookeeper://gzZk:2181" /> <!-- 广州中心 -->
+  <dubbo:registry id="gzCenter" address="zookeeper://gzZk:2181" subscribe="false" /> <!-- 广州中心 -->
   <dubbo:registry id="szCenter" address="zookeeper://szZk:2181" /> <!-- 深圳中心 -->
 
   <!-- 注册Service实现类 -->
