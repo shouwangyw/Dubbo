@@ -39,6 +39,8 @@
     <module>06-provider-timeout</module>
     <module>06-consumer-timeout</module>
     <module>07-consumer-cache</module>
+    <module>08-provider-registers</module>
+    <module>08-consumer-registers</module>
   </modules>
 
   <dependencies>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+  <!-- 指定当前工程在Monitor中显示的名称，一般与工程名相同 -->
+  <dubbo:application name="08-consumer-registers">
+    <dubbo:parameter key="qos.port" value="4444" />
+  </dubbo:application>
+  <!-- 声明注册中心 -->
+  <dubbo:registry id="bjCenter" address="zookeeper://bjZk:2181" /> <!-- 北京中心 -->
+  <dubbo:registry id="shCenter" address="zookeeper://shZk:2181" /> <!-- 上海中心 -->
+  <dubbo:registry id="gzCenter" address="zookeeper://gzZk:2181" /> <!-- 广州中心 -->
+
+  <!--  订阅服务：指定调用bjCenter注册中心-微信服务 -->
+  <dubbo:reference id="weixin" group="pay.weixin" registry="bjCenter"
+                   interface="com.yw.dubbo.example.service.SomeService" />
+
+  <!--  订阅服务：指定调用shCenter和gzCenter注册中心-支付宝服务 -->
+  <dubbo:reference id="shZhifubao" group="pay.zhifubao" registry="shCenter"
+                   interface="com.yw.dubbo.example.service.SomeService"/>
+  <dubbo:reference id="gzZhifubao" group="pay.zhifubao" registry="gzCenter"
+                   interface="com.yw.dubbo.example.service.SomeService"/>
+</beans>

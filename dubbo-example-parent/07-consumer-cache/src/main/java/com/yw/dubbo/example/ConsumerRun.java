@@ -20,7 +20,7 @@ public class ConsumerRun {
 //        System.out.println(service.hello("Jerry"));
 
         // 1000次不同的消费结果，将占满1000个缓存空间
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 1; i <= 1000; i++) {
             service.hello("i==" + i);
         }
         // 第1001次不同的消费结果，会将第一个缓存内容挤出去
