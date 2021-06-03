@@ -41,6 +41,8 @@
     <module>07-consumer-cache</module>
     <module>08-provider-registers</module>
     <module>08-consumer-registers</module>
+    <module>09-provider-async</module>
+    <module>09-consumer-async</module>
   </modules>
 
   <dependencies>
