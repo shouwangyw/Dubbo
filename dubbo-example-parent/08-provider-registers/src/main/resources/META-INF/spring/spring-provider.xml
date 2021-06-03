@@ -23,4 +23,15 @@
                  group="pay.weixin" register="bjCenter, shCenter"/>
   <dubbo:service interface="com.yw.dubbo.example.service.SomeService" ref="zhifubaoService"
                  group="pay.zhifubao" register="gzCenter, szCenter"/>
+
+  <!-- 服务暴露延迟 -->
+  <!-- 提供者对象创建完毕5秒后，发布服务 -->
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 ref="someService" delay="5000" />
+  <!-- 提供者对象创建完毕后，立即发布服务 -->
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 ref="someService" delay="0" />
+  <!-- 提供者对象创建完毕，在Spring容器初始化完毕后发布服务 -->
+  <dubbo:service interface="com.yw.dubbo.example.service.SomeService"
+                 ref="someService" delay="-1" />
 </beans>
