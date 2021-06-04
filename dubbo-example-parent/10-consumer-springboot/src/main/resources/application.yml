@@ -1,0 +1,9 @@
+server:
+  port: 9999
+
+# dubbo相关配置
+dubbo:
+  application:
+    name: 10-consumer-springboot
+  registry: # 指定zk注册中心
+    address: zookeeper://192.168.254.120:2181

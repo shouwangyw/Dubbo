@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yw.dubbo.example</groupId>
+    <artifactId>dubbo-example-parent</artifactId>
+    <version>1.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>10-consumer-springboot</artifactId>
+  <packaging>jar</packaging>
+
+  <properties>
+    <dubbo-spring-boot.version>2.7.0</dubbo-spring-boot.version>
+  </properties>
+
+  <dependencies>
+    <!-- 业务接口工程依赖 -->
+    <dependency>
+      <groupId>com.yw.dubbo.example</groupId>
+      <artifactId>00-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- dubbo与spring boot整合依赖 -->
+    <dependency>
+      <groupId>org.apache.dubbo</groupId>
+      <artifactId>dubbo-spring-boot-starter</artifactId>
+      <version>${dubbo-spring-boot.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+
+    <resources>
+      <!--注册webapp目录为资源目录-->
+      <resource>
+        <directory>src/main/webapp</directory>
+        <targetPath>META-INF/resources</targetPath>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+</project>

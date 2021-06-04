@@ -1,0 +1,38 @@
+server:
+  port: 8888
+
+mybatis:
+#  # 注册mybatis中实体类的别名
+#  type-aliases-package: com.yw.dubbo.example.model
+  # 注册映射文件
+  mapper-locations: classpath:com/yw/dubbo/example/dao/*.xml
+
+spring:
+  # 注册数据源
+  datasource:
+    # 指定数据源类型为Druid
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.254.128:3306/test?useUnicode=true&amp;characterEncoding=UTF-8
+    username: root
+    password: 123456
+
+  # 连接Redis服务器
+  redis:
+    host: 192.168.254.128
+    port: 6379
+    password:
+
+  # 配置缓存
+  cache:
+    # 指定缓存类型
+    type: redis
+    # 指定缓存区域名称
+    cache-names: realTimeCache
+
+# dubbo相关配置
+dubbo:
+  application:  # 等价于配置文件中的<dubbo:application>
+    name: 10-provider-springboot
+  registry:
+    address: zookeeper://192.168.254.120:2181
