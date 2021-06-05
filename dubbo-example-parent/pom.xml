@@ -47,6 +47,7 @@
     <module>11-spi-dubbo</module>
     <module>12-adaptive-method</module>
     <module>12-adaptive-class</module>
+    <module>13-wrapper</module>
   </modules>
 
   <dependencies>

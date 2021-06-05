@@ -1,0 +1,4 @@
+alipay=com.yw.dubbo.example.service.AlipayOrder
+wechat=com.yw.dubbo.example.service.WechatOrder
+one=com.yw.dubbo.example.wrapper.OneOrderWrapper
+two=com.yw.dubbo.example.wrapper.TwoOrderWrapper
