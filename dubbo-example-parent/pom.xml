@@ -43,6 +43,8 @@
     <module>09-consumer-async</module>
     <module>10-provider-springboot</module>
     <module>10-consumer-springboot</module>
+    <module>11-spi-jdk</module>
+    <module>11-spi-dubbo</module>
   </modules>
 
   <dependencies>

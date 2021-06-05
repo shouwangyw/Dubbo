@@ -1,0 +1,13 @@
+package com.yw.dubbo.example.service;
+
+/**
+ * @author yangwei
+ * @date 2021-06-05 13:36
+ */
+public class WechatOrder implements Order {
+    @Override
+    public String way() {
+        System.out.println("--- 使用微信支付 ---");
+        return "微信支付";
+    }
+}
