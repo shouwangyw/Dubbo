@@ -48,6 +48,7 @@
     <module>12-adaptive-method</module>
     <module>12-adaptive-class</module>
     <module>13-wrapper</module>
+    <module>14-activate</module>
   </modules>
 
   <dependencies>

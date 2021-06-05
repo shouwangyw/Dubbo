@@ -1,0 +1,5 @@
+alipay=com.yw.dubbo.example.service.AlipayOrder
+wechat=com.yw.dubbo.example.service.WechatOrder
+card=com.yw.dubbo.example.service.CardOrder
+cash=com.yw.dubbo.example.service.CashOrder
+coupon=com.yw.dubbo.example.service.CouponOrder
