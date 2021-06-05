@@ -45,6 +45,8 @@
     <module>10-consumer-springboot</module>
     <module>11-spi-jdk</module>
     <module>11-spi-dubbo</module>
+    <module>12-adaptive-method</module>
+    <module>12-adaptive-class</module>
   </modules>
 
   <dependencies>
