@@ -117,7 +117,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
      * layers, and eventually will get a <b>ProtocolFilterWrapper</b> or <b>ProtocolListenerWrapper</b>
      */
     private static final Protocol protocol = ExtensionLoader
-                                        .getExtensionLoader(Protocol.class)
+                                        .getExtensionLoader(Protocol.class)     // 获取Protocol接口的Loader
                                         .getAdaptiveExtension();
 
     /**
@@ -371,7 +371,6 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     public synchronized void export() {
         // 检测所有的注册中心可用性，并进一步完善<dubbo:service/>的配置
         checkAndUpdateSubConfigs();
-
         // 若设置的export为false，则不进行服务暴露，直接结束
         if (!shouldExport()) {
             return;

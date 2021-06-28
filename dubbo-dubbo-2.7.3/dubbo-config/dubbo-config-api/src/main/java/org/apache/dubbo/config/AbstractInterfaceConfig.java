@@ -273,7 +273,6 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
         if (configCenter == null) {
             ConfigManager.getInstance().getConfigCenter().ifPresent(cc -> this.configCenter = cc);
         }
-
         if (this.configCenter != null) {
             // TODO there may have duplicate refresh
             this.configCenter.refresh();
@@ -311,11 +310,13 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     }
 
     private DynamicConfiguration getDynamicConfiguration(URL url) {
-        // 获取动态配置工厂DynamicConfigurationFactory的名称为zookeeper的扩展类实例
+        // 获取Zookeeper的动态配置工厂实例
         DynamicConfigurationFactory factories = ExtensionLoader
                 .getExtensionLoader(DynamicConfigurationFactory.class)
                 .getExtension(url.getProtocol());  //
+        // 从工厂实例中获取动态配置实例
         DynamicConfiguration configuration = factories.getDynamicConfiguration(url);
+        // 使用动态配置初始化运行环境
         Environment.getInstance().setDynamicConfiguration(configuration);
         return configuration;
     }
@@ -641,12 +642,12 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
             Environment.getInstance().getDynamicConfiguration().orElseGet(() -> {
                 ConfigManager configManager = ConfigManager.getInstance();
                 ConfigCenterConfig cc = configManager.getConfigCenter().orElse(new ConfigCenterConfig());
-                // 使用注册中心初始化配置中心
+                // 将注册中心rc中的相关属性初始化到配置中心cc
                 cc.setProtocol(rc.getProtocol());
                 cc.setAddress(rc.getAddress());
                 cc.setHighestPriority(false);
                 setConfigCenter(cc);
-                // 开启配置中心
+                // 启动配置中心
                 startConfigCenter();
                 return null;
             });
