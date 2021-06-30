@@ -1,14 +1,13 @@
-package com.yw;
+package com.yw.dubbo.example;
 
-import com.yw.spi.Order;
+import com.yw.dubbo.example.service.Order;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 
 /**
  * @author yangwei
- * @date 2020-11-21 10:57
  */
-public class OrderTest {
+public class WrapperTest {
     public static void main(String[] args) {
         ExtensionLoader<Order> loader = ExtensionLoader.getExtensionLoader(Order.class);
         Order order = loader.getAdaptiveExtension();

@@ -1,4 +1,4 @@
-package com.yw.spi;
+package com.yw.dubbo.example.service;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.Adaptive;
@@ -9,7 +9,7 @@ import org.apache.dubbo.common.extension.SPI;
  *
  * @author yangwei
  */
-@SPI("wechat")
+@SPI("alipay")
 public interface Order {
     String way();
 

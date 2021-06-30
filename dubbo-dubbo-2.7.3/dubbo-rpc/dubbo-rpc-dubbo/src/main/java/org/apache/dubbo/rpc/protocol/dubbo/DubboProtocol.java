@@ -281,7 +281,7 @@ public class DubboProtocol extends AbstractProtocol {
 
         // export service.
         String key = serviceKey(url);
-        // 创建服务暴露对象，并写入到缓存map
+        // 创建一个与服务暴露协议相绑定的exporter，并写入到缓存map
         DubboExporter<T> exporter = new DubboExporter<T>(invoker, key, exporterMap);
         exporterMap.put(key, exporter);
 
@@ -315,20 +315,18 @@ public class DubboProtocol extends AbstractProtocol {
         boolean isServer = url.getParameter(IS_SERVER_KEY, true);
         if (isServer) {
             ExchangeServer server = serverMap.get(key);
-            if (server == null) {
+            if (server == null) { // DCL: 这里是为了防止同一个服务暴露协议同时暴露当前主机中的多个服务
                 synchronized (this) {
                     server = serverMap.get(key);
                     if (server == null) {
-                        // 创建一个ExchangeServer
-                        // 一个ExchangeServer仅会负责一个NettyServer的同异步转换工作，
+                        // 创建一个ExchangeServer，一个ExchangeServer仅会负责一个NettyServer的同异步转换工作，
                         // 即一个ExchangeServer就会对应一个NettyServer
                         serverMap.put(key, createServer(url));
                     }
                 }
             } else {
                 // server supports reset, use together with override
-                // 重置server(更新url的值)
-                server.reset(url);
+                server.reset(url);  // 重置server(更新url的值)
             }
         }
     }

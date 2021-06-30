@@ -1,4 +1,4 @@
-package com.yw.spi;
+package com.yw.dubbo.example.service;
 
 import org.apache.dubbo.common.URL;
 

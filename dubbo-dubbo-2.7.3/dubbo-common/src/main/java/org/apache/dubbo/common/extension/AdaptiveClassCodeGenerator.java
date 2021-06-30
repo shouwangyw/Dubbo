@@ -90,7 +90,6 @@ public class AdaptiveClassCodeGenerator {
         if (!hasAdaptiveMethod()) {
             throw new IllegalStateException("No adaptive method exist on extension " + type.getName() + ", refuse to create the adaptive class!");
         }
-
         // 通过字符串拼接方式，生成代码
         StringBuilder code = new StringBuilder();
         code.append(generatePackageInfo());

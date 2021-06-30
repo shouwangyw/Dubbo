@@ -169,7 +169,7 @@ public class UrlUtils {
         // 遍历所有当前解析出的注册中心地址
         for (String addr : addresses) {
             // parseURL() 将注册中心地址全部变为如下形式：
-            // zookeeper://zkOS1:2181?backup=zkOS2:2181,zkOS3:2181
+            //      `zookeeper://zkOS1:2181?backup=zkOS2:2181,zkOS3:2181`
             registries.add(parseURL(addr, defaults));
         }
         return registries;

@@ -25,7 +25,8 @@ import org.apache.dubbo.common.Node;
  * @see org.apache.dubbo.rpc.InvokerListener
  * @see org.apache.dubbo.rpc.protocol.AbstractInvoker
  */
-// 若继承自Node，故可以通过getUrl()方法获取到URL，即，Invoker可以作为Adaptive方法的参数
+// 若继承自Node，故可以通过getUrl()方法获取到URL，
+// 即Invoker可以作为Adaptive方法的参数
 public interface Invoker<T> extends Node {
 
     /**

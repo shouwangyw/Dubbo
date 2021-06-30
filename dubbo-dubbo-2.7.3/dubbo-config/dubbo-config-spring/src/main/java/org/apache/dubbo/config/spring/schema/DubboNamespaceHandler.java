@@ -46,6 +46,7 @@ public class DubboNamespaceHandler extends NamespaceHandlerSupport {
 
     @Override
     public void init() {
+        // 注册一个一个的 BeanDefinition 解析器，将配置文件中的各个标签通过 DubboBeanDefinitionParser 解析器进行解析，解析出来的结果封装到对应的 xxxConfig 对象中
         registerBeanDefinitionParser("application", new DubboBeanDefinitionParser(ApplicationConfig.class, true));
         registerBeanDefinitionParser("module", new DubboBeanDefinitionParser(ModuleConfig.class, true));
         registerBeanDefinitionParser("registry", new DubboBeanDefinitionParser(RegistryConfig.class, true));

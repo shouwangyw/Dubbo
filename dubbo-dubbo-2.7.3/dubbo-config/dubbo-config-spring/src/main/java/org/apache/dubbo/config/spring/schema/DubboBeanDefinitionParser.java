@@ -66,7 +66,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
     private final boolean required;
 
     /**
-     *  Dubbo标签解析器构造器
+     * Dubbo标签解析器构造器
      * @param beanClass 标签属性读出值所封装的类型
      * @param required 指定id属性在当前标签中是否是必须的
      */
@@ -76,19 +76,19 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
     }
 
     /**
-     *  解析指定标签
+     * 解析指定标签
      * @param element 要解析的标签元素
      * @param parserContext 解析上下文，其中包含了当前配置文件中所有其它标签的解析信息
      * @param beanClass  标签属性读出值所封装的类型，是一种物理性封装
      * @param required  指定id属性在当前标签中是否是必须的
-     * @return 解析对象。即当前标签最终解析出的“逻辑实例”的Bean定义器实例
+     * @return 返回解析对象定义器，这里暂且称其为"解析对象"。即当前标签最终解析出的“逻辑实例”的Bean定义器实例
      */
     @SuppressWarnings("unchecked")
     private static BeanDefinition parse(Element element, ParserContext parserContext, Class<?> beanClass, boolean required) {
         // ========================== 1 创建并初始化解析对象 ================
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
         beanDefinition.setBeanClass(beanClass);
-        beanDefinition.setLazyInit(false);
+        beanDefinition.setLazyInit(false);  // 不进行延迟初始化
 
         // ========================== 2 解决id问题：为空的问题 与 重复的问题 ================
         // 获取当前标签中的id属性
@@ -97,8 +97,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
             // 获取当前标签的name属性
             String generatedBeanName = element.getAttribute("name");
             if (StringUtils.isEmpty(generatedBeanName)) {
-                // 若当前解析的标签为<dubbo:protocol/>，则name属性值设置为dubbo
-                // 否则，取interface属性值
+                // 若当前解析的标签为<dubbo:protocol/>，则name属性值设置为dubbo，否则取interface属性值
                 if (ProtocolConfig.class.equals(beanClass)) {
                     generatedBeanName = "dubbo";
                 } else {
@@ -109,7 +108,6 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
             if (StringUtils.isEmpty(generatedBeanName)) {
                 generatedBeanName = beanClass.getName();
             }
-
             // 代码走到这里，name属性一定不空，即id属性一定不空
             id = generatedBeanName;
             int counter = 2;
@@ -120,15 +118,15 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
             }
         }  // end-if
 
-        // ========================== 3 将id属性写入到解析对象 ================
+        // ========================== 3 将id属性写入到BeanDefinition ================
         if (id != null && id.length() > 0) {
             // 若用户在标签中自己指定的id属性在解析上下文中重复，则直接抛出异常
             if (parserContext.getRegistry().containsBeanDefinition(id)) {
                 throw new IllegalStateException("Duplicate spring bean id " + id);
             }
-            // 将 id-解析对象 写入到解析上下文
+            // 将`id-解析对象`写入到解析上下文
             parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
-            // 将id属性写入到解析对象中
+            // 将id属性添加在BeanDefinition
             beanDefinition.getPropertyValues().addPropertyValue("id", id);
         }
 
@@ -158,12 +156,13 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
             // 处理<dubbo:provider/>标签
         } else if (ProviderConfig.class.equals(beanClass)) {
             // 嵌套解析<dubbo:servie/>与<dubbo:provider/>标签
-            parseNested(element, parserContext, ServiceBean.class, true, "service", "provider", id, beanDefinition);
-
+            parseNested(element, parserContext, ServiceBean.class, true,
+                    "service", "provider", id, beanDefinition);
             // 处理<dubbo:consumer/>标签
         } else if (ConsumerConfig.class.equals(beanClass)) {
             // 嵌套解析<dubbo:reference/>与<dubbo:consumer/>标签
-            parseNested(element, parserContext, ReferenceBean.class, false, "reference", "consumer", id, beanDefinition);
+            parseNested(element, parserContext, ReferenceBean.class, false,
+                    "reference", "consumer", id, beanDefinition);
         }
 
         // ========================== 5 对所有标签的普适性处理 ================

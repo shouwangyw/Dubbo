@@ -194,8 +194,7 @@ public class RegistryProtocol implements Protocol {
     public <T> Exporter<T> export(final Invoker<T> originInvoker) throws RpcException {
         // 获取注册中心URL
         URL registryUrl = getRegistryUrl(originInvoker);
-        // url to export locally
-        // 获取提供者URL
+        // url to export locally  获取提供者URL
         URL providerUrl = getProviderUrl(originInvoker);
 
         // Subscribe the override data
@@ -207,7 +206,9 @@ public class RegistryProtocol implements Protocol {
         overrideListeners.put(overrideSubscribeUrl, overrideSubscribeListener);
 
         providerUrl = overrideUrlWithConfig(providerUrl, overrideSubscribeListener);
-        //export invoker  服务暴露
+        //export invoker  服务暴露，完成两项工作
+        // 1、形成与服务暴露协议相绑定的exporter，并将这个exporter写入到奥一个缓存map
+        // 2、创建并启动netty server(创建几个？)
         final ExporterChangeableWrapper<T> exporter = doLocalExport(originInvoker, providerUrl);
 
         // url to registry  获取注册中心实例
@@ -242,7 +243,7 @@ public class RegistryProtocol implements Protocol {
     @SuppressWarnings("unchecked")
     private <T> ExporterChangeableWrapper<T> doLocalExport(final Invoker<T> originInvoker, URL providerUrl) {
         String key = getCacheKey(originInvoker);
-
+        // 这个key就是当前暴露服务的唯一标识，将来要用作注册到ZK中临时节点的名称
         return (ExporterChangeableWrapper<T>) bounds.computeIfAbsent(key, s -> {
             Invoker<?> invokerDelegate = new InvokerDelegate<>(originInvoker, providerUrl);
             return new ExporterChangeableWrapper<>((Exporter<T>) protocol.export(invokerDelegate), originInvoker);

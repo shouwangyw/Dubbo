@@ -334,26 +334,19 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
         // 若配置文件中配置了<dubbo:registry/>标签，则获取所有注册中心的url
         // 由于dubbo支持多注册中心，所以可能会存在多个<dubbo:registry/>标签
         if (CollectionUtils.isNotEmpty(registries)) {
-            // 遍历所有<dubbo:registry/>标签
-            for (RegistryConfig config : registries) {
-                // 获取<dubbo:registry/>的address属性
-                String address = config.getAddress();
-                // 若没有指定address，则返回一个可以匹配所有ip的地址
-                if (StringUtils.isEmpty(address)) {
+            for (RegistryConfig config : registries) {      // 遍历所有<dubbo:registry/>标签
+                String address = config.getAddress();       // 获取<dubbo:registry/>的address属性
+                if (StringUtils.isEmpty(address)) {         // 若没有指定address，则返回一个可以匹配所有ip的地址
                     address = ANYHOST_VALUE;
                 }
                 // 若address不等于N/A，即不是直接方式
                 if (!RegistryConfig.NO_AVAILABLE.equalsIgnoreCase(address)) {
-                    // 定义一个map，其中用于存放来自于各种标签的属性及其它属性值，
-                    // 这些值将来要作为URL中的元数据出现
+                    // 定义一个map 用于存放来自于各种标签的属性及其它属性值，这些值将来要作为URL中的元数据出现
                     Map<String, String> map = new HashMap<String, String>();
-                    // 将<dubbo:application/>标签中的属性写入到map
-                    appendParameters(map, application);
-                    // 将<dubbo:registry/>标签中的属性写入到map
-                    appendParameters(map, config);
-                    map.put(PATH_KEY, RegistryService.class.getName());
-                    // 将运行时的一些参数值写入到map
-                    appendRuntimeParameters(map);
+                    appendParameters(map, application);     // 将<dubbo:application/>标签中的属性写入到map
+                    appendParameters(map, config);          // 将<dubbo:registry/>标签中的属性写入到map
+                    map.put(PATH_KEY, RegistryService.class.getName()); // 将path写入到map
+                    appendRuntimeParameters(map);           // 将运行时的一些参数值写入到map
                     if (!map.containsKey(PROTOCOL_KEY)) {
                         map.put(PROTOCOL_KEY, DUBBO_PROTOCOL);
                     }
@@ -367,6 +360,8 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
                                 .addParameter(REGISTRY_KEY, url.getProtocol())
                                 .setProtocol(REGISTRY_PROTOCOL)
                                 .build();
+                        // <dubbo:registry />中有register(false: 仅订阅)、subscribe(false: 仅注册)两个属性
+                        // 若提供者端可以注册，或者消费者端可以订阅，则这个url可以记录下来
                         if ((provider && url.getParameter(REGISTER_KEY, true))
                                 || (!provider && url.getParameter(SUBSCRIBE_KEY, true))) {
                             registryList.add(url);

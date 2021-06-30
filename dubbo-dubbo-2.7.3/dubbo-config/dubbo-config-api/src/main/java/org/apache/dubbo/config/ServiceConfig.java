@@ -379,7 +379,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         if (shouldDelay()) {
             DELAY_EXPORT_EXECUTOR.schedule(this::doExport, getDelay(), TimeUnit.MILLISECONDS);
         } else {
-            doExport();
+            doExport(); // 服务发布
         }
     }
 
@@ -391,9 +391,8 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
     @Override
     public Boolean getExport() {
-        // 若<dubbo:service/>中没有设置export属性，但设置了provider属性，
-        // 则返回<dubbo:provider/>的export属性值
-        // 若<dubbo:service/>中指定了export属性，则直接返回
+        // 若<dubbo:service/>中没有设置export属性，且设置了<dubbo:provider/>标签
+        // 则取<dubbo:provider/>的export属性值
         return (export == null && provider != null) ? provider.getExport() : export;
     }
 
@@ -408,16 +407,17 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     }
 
     protected synchronized void doExport() {
+        // 若已经取消发布，则抛出异常
         if (unexported) {
             throw new IllegalStateException("The service " + interfaceClass.getName() + " has already unexported!");
         }
+        // 若已经发布过，则直接结束
         if (exported) {
             return;
         }
         // 修改服务暴露状态变量
         exported = true;
-
-        // URL的构成为：  protocol://host:port/path?元数据
+        // URL的构成为`protocol://host:port/path?元数据`，path属性用于表示当前url所代表的服务类型
         // 若<dubbo:service/>中没有指定path属性，则取interface属性的值
         if (StringUtils.isEmpty(path)) {
             path = interfaceName;
@@ -464,16 +464,18 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         List<URL> registryURLs = loadRegistries(true);
         // 遍历当前服务所支持的所有服务暴露协议
         for (ProtocolConfig protocolConfig : protocols) {
-            String pathKey = URL.buildKey(getContextPath(protocolConfig).map(p -> p + "/" + path).orElse(path), group, version);
+            String pathKey = URL.buildKey(getContextPath(protocolConfig)
+                    .map(p -> p + "/" + path).orElse(path), group, version);
             ProviderModel providerModel = new ProviderModel(pathKey, ref, interfaceClass);
             ApplicationModel.initProviderModel(pathKey, providerModel);
-            // 使用当前遍历的服务暴露协议，将服务暴露到所有注册中心
+            // 使用当前遍历的服务暴露协议，与每一个注册中心形成一个invoker进行服务暴露
             doExportUrlsFor1Protocol(protocolConfig, registryURLs);
         }
     }
 
     private void doExportUrlsFor1Protocol(ProtocolConfig protocolConfig, List<URL> registryURLs) {
-        // 获取服务暴露协议
+        // ================================= Step1 =================================
+        // 获取服务暴露协议，若为空，则设为dubbo
         String name = protocolConfig.getName();
         if (StringUtils.isEmpty(name)) {
             name = DUBBO;
@@ -491,6 +493,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         appendParameters(map, provider);
         appendParameters(map, protocolConfig);
         appendParameters(map, this);
+        // 将<dubbo:method />标签中的属性写入map
         if (CollectionUtils.isNotEmpty(methods)) {
             for (MethodConfig method : methods) {
                 appendParameters(map, method, method.getName());
@@ -571,6 +574,8 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
                 map.put(TOKEN_KEY, token);
             }
         }
+
+        // ================================= Step2 =================================
         // export service 获取到host与port
         String host = this.findConfigedHosts(protocolConfig, registryURLs, map);
         Integer port = this.findConfigedPorts(protocolConfig, name, map);
@@ -583,25 +588,23 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             url = ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class)
                     .getExtension(url.getProtocol()).getConfigurator(url).configure(url);
         }
+
+        // ================================= Step3 =================================
         // 获取<dubbo:service/>中的scope属性
         String scope = url.getParameter(SCOPE_KEY);
         // don't export when none is configured
-        // 若scope的值不为none，则进行服务暴露
-        if (!SCOPE_NONE.equalsIgnoreCase(scope)) {
+        if (!SCOPE_NONE.equalsIgnoreCase(scope)) { // 若scope的值不为none，则进行服务暴露
             // export to local if the config is not remote (export to remote only when config is remote)
-            // 若scope的值不为remote，则进行本地暴露
-            if (!SCOPE_REMOTE.equalsIgnoreCase(scope)) {
+            if (!SCOPE_REMOTE.equalsIgnoreCase(scope)) { // 若scope的值不为remote，则进行本地暴露
                 exportLocal(url);  // 本地暴露
             }
             // export to remote if the config is not local (export to local only when config is local)
-            // 若scope的值不为local，则进行远程暴露
-            if (!SCOPE_LOCAL.equalsIgnoreCase(scope)) {
+            if (!SCOPE_LOCAL.equalsIgnoreCase(scope)) { // 若scope的值不为local，则进行远程暴露
                 if (!isOnlyInJvm() && logger.isInfoEnabled()) {
                     logger.info("Export dubbo service " + interfaceClass.getName() + " to url " + url);
                 }
                 if (CollectionUtils.isNotEmpty(registryURLs)) {
-                    // 遍历所有注册中心
-                    for (URL registryURL : registryURLs) {
+                    for (URL registryURL : registryURLs) {  // 遍历所有注册中心
                         //if protocol is only injvm ,not register
                         if (LOCAL_PROTOCOL.equalsIgnoreCase(url.getProtocol())) {
                             continue;

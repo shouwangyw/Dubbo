@@ -52,7 +52,7 @@ public abstract class AbstractCompiler implements Compiler {
         // 拼接出要加载的全限定性类名
         String className = pkg != null && pkg.length() > 0 ? pkg + "." + cls : cls;
         try {
-            // 加载名称为className的类
+            // 尝试着去加载指定的类（例如：org.apache.dubbo.rpc.Protocol$Adaptive）
             return Class.forName(className, true, org.apache.dubbo.common.utils.ClassUtils.getCallerClassLoader(getClass()));
         } catch (ClassNotFoundException e) {
             if (!code.endsWith("}")) {
